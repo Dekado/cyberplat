@@ -1,0 +1,37 @@
+RewriteEngine On
+RewriteBase /
+
+#Слэш в конце убираем
+RewriteBase /
+RewriteCond %{HTTP_HOST} (.*)
+RewriteCond %{REQUEST_URI} /$ [NC]
+RewriteRule ^(.*)(/)$ $1 [L,R=301]
+
+
+#c ввв
+RewriteCond %{HTTP_HOST} ^www\.botov\.ru$ [NC]
+RewriteRule ^(.*)$ http://botov.ru/$1 [R=301,L]
+
+
+php_value error_reporting 32767
+#php_flag short_open_tag = On
+php_flag display_startup_errors on
+php_flag display_errors on
+php_flag html_errors on
+php_flag  log_errors on
+php_value error_log  /Users/costa/botov/errors.log
+
+#YiiSettings
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteRule ^.*$ /index.php [L] 
+
+SetEnvIfNoCase User-Agent "DotBot" bad_bot
+<Limit GET POST HEAD>
+Order Allow,Deny
+Allow from all
+Deny from env=bad_bot
+</Limit>
+
+
